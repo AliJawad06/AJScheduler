@@ -19,9 +19,10 @@ const ClassSchedule = z.object({
 });
 
 
-export async function imgToJSON(imagePath: string) {
+export async function imgToJSON(image: File) {
 
-const base64Image = fs.readFileSync(imagePath, "base64");
+
+const base64Image = fs.readFileSync(image, "base64");
 
     const response = await openai.responses.parse({
         model: "gpt-4.1-mini",

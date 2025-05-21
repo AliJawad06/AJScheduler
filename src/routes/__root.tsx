@@ -1,3 +1,4 @@
+import '@mantine/core/styles.css';
 import {
   HeadContent,
   Link,
@@ -10,7 +11,6 @@ import { createServerFn } from '@tanstack/react-start'
 import * as React from 'react'
 import { DefaultCatchBoundary } from '../components/DefaultCatchBoundary'
 import { NotFound } from '../components/NotFound'
-import appCss from '../styles/app.css?url'
 import { seo } from '../utils/seo'
 import { getSupabaseServerClient } from '../utils/supabase'
 import {
@@ -49,7 +49,6 @@ export const Route = createRootRoute({
       }),
     ],
     links: [
-      { rel: 'stylesheet', href: appCss },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
@@ -67,7 +66,6 @@ export const Route = createRootRoute({
         sizes: '16x16',
         href: '/favicon-16x16.png',
       },
-      { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
       { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
@@ -101,12 +99,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { user } = Route.useRouteContext()
 
   return (
+  <MantineProvider>
     <html>
       <head>
         <HeadContent />
       </head>
       <body>
-      <>
+      
         <div className="p-2 flex gap-2 text-lg">
           <Link
             to="/"
@@ -140,8 +139,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         {children}
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
-        </>
       </body>
-    </html>
+    </html>       
+    </MantineProvider>
+
   )
 }
