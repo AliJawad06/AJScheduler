@@ -7,6 +7,7 @@ import {
   Button,
 } from "@mantine/core"
 import { uploadImage } from '~/fn/storage'
+import { imgToJSON } from '~/fn/cv'
 
 
 export type FormValues = {
@@ -28,10 +29,19 @@ export default function FormComponent() {
       fisle: null, // ✅ proper default
     },
     onSubmit: async ({ value }) => {
-
       const formData = new FormData();
       formData.append("file", value.fisle)
-      await uploadImage({data: formData})
+       uploadImage({data: formData})
+       .then(async (data) => {
+          const imgFormData = new FormData(); 
+          imgFormData.append("filePath", data)
+          const scheduleJSON = await imgToJSON({data: imgFormData})
+          .then(async(data) => { 
+            console.log(JSON.stringify(data))
+          })
+
+       })
+      //TODO add success 
       
     },
   })

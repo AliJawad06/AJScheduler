@@ -10,6 +10,5 @@ export const uploadImage = createServerFn({ method: "POST" })
   .handler(async ({ data: formData }) => {
     const file = formData.get("file") as File 
     if (!(file instanceof File)) throw new Error("[file] not found");
-    await saveFile(file.name, file)
-    return (file.name)
+    return await saveFile(file.name, file)
   });

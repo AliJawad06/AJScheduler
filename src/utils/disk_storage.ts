@@ -10,10 +10,10 @@ export async function saveFile(key: string, file: File | Buffer) {
 
   const imgFile: File = file 
   const fileBuffer = file instanceof File ? Buffer.from(await file.arrayBuffer()) : imgFile;
-    console.log(fileBuffer)
+  console.log(fileBuffer)
 
   // Create the file path
-  const filePath= "/Users/alijawad/Downloads/Namaz/src/image/" + key;
+  const filePath= uploadDir + key;
    
   try {
     // Ensure upload directory exists
@@ -22,7 +22,7 @@ export async function saveFile(key: string, file: File | Buffer) {
     // Write the file
     await writeFile(filePath, fileBuffer);
 
-    return key;
+    return filePath;
   } catch (error) {
     console.error(`Error saving file ${key}:`, error);
     throw new Error(

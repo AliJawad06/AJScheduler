@@ -2,8 +2,10 @@ import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import fs from "fs";
+import { createServerFn } from "@tanstack/react-start";
 
-const openai = new OpenAI();
+
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 const Class = z.object({
   className: z.string(),
@@ -19,10 +21,12 @@ const ClassSchedule = z.object({
 });
 
 
-export async function imgToJSON(image: File) {
+export const imgToJSON = createServerFn({method: "POST"})
+.handler( async ({data: imgFormData}) => {
 
-
-const base64Image = fs.readFileSync(image, "base64");
+const  imagePath  = imgFormData.get("filePath") as String
+console.log(imagePath + "this is imagePath")
+const base64Image = fs.readFileSync(imagePath, "base64");
 
     const response = await openai.responses.parse({
         model: "gpt-4.1-mini",
@@ -44,5 +48,5 @@ const base64Image = fs.readFileSync(image, "base64");
           },
     });
   
-    return response.output_parsed;
-}
+    return response.output_parsed 
+});
